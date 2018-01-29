@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+    <changeSet id="19082014-1" author="autor">
+        <sql>
+            INSERT INTO person(first_name, last_name, date_of_birth, place_of_birth)
+            VALUES ('First5', 'Last5', DATE '1978-02-22', 'Delhi2');
+        </sql>
+    </changeSet>
+    <changeSet id="19082014-2" author="Eugene">
+        <sql>
+            INSERT INTO person(first_name, last_name, date_of_birth, place_of_birth)
+            VALUES ('Eugene', 'Evzerov', DATE '2018-01-30', 'Voronezh');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

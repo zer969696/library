@@ -12,6 +12,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-    <h1>KEK</h1>
+    <h1>${kek}</h1>
 </body>
 </html>
