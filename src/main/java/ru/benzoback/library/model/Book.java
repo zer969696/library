@@ -7,6 +7,10 @@ public class Book {
     private String title;
     private User user;
 
+    public Book() {
+
+    }
+
     public Book(Integer id, String author, String title, User user) {
         this.id = id;
         this.author = author;
@@ -14,12 +18,12 @@ public class Book {
         this.user = user;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getAuthor() {
@@ -30,12 +34,12 @@ public class Book {
         this.author = author;
     }
 
-    public Integer getId() {
-        return id;
+    public String getTitle() {
+        return title;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public User getUser() {
