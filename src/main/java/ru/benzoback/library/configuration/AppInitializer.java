@@ -1,6 +1,11 @@
 package ru.benzoback.library.configuration;
 
+import org.h2.server.web.WebServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -18,4 +23,12 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new String[] { "/" };
     }
 
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        super.onStartup(servletContext);
+
+        ServletRegistration.Dynamic servletRegistration = servletContext.addServlet("h2-console", new WebServlet());
+        servletRegistration.setLoadOnStartup(2);
+        servletRegistration.addMapping("/console/*");
+    }
 }

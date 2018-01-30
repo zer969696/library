@@ -16,6 +16,7 @@ public class RestCont {
 
     @GetMapping
     public ResponseEntity<?> getPersons() {
-        return ResponseEntity.ok(personDAO.getPersons());
+//        return ResponseEntity.ok(personDAO.getPersons());
+        return null;
     }
 }

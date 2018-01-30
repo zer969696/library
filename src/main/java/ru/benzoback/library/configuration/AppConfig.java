@@ -1,5 +1,7 @@
 package ru.benzoback.library.configuration;
 
+import org.h2.server.web.WebServlet;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
@@ -33,4 +35,5 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer.setUseRegisteredSuffixPatternMatch(true);
     }
+
 }
