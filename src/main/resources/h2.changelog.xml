@@ -5,16 +5,30 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
-    <changeSet id="19082014-1" author="autor">
+    <changeSet id="31012018-1" author="Evgeniy_Evzerov">
         <sql>
-            INSERT INTO person(first_name, last_name, date_of_birth, place_of_birth)
-            VALUES ('First5', 'Last5', DATE '1978-02-22', 'Delhi2');
+            INSERT INTO users(name)
+            VALUES ('benzoback');
         </sql>
     </changeSet>
-    <changeSet id="19082014-2" author="Eugene">
+    <changeSet id="31012018-2" author="Evgeniy_Evzerov">
         <sql>
-            INSERT INTO person(first_name, last_name, date_of_birth, place_of_birth)
-            VALUES ('Eugene', 'Evzerov', DATE '2018-01-30', 'Voronezh');
+            INSERT INTO user_account(login, password, user_id)
+            VALUES ('log_in', 'password', 1);
+        </sql>
+    </changeSet>
+    <changeSet id="31012018-3" author="Evgeniy_Evzerov">
+        <sql>
+            INSERT INTO books(author, title, user_id)
+            VALUES ('Hemingway', 'Old Man and the Sea', 1);
+        </sql>
+        <sql>
+            INSERT INTO books(author, title, user_id)
+            VALUES ('Orwell', '1984', null);
+        </sql>
+        <sql>
+            INSERT INTO books(author, title, user_id)
+            VALUES ('Author of the Book', 'Book title', 1);
         </sql>
     </changeSet>
 </databaseChangeLog>

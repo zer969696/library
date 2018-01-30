@@ -18,7 +18,8 @@ public class DBConfig {
                 .generateUniqueName(false)
                 .setName("testdb")
                 .setType(EmbeddedDatabaseType.H2)
-                .addDefaultScripts()
+                //.addDefaultScripts()
+                .addScript("schema.sql")
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .build();
