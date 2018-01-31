@@ -3,6 +3,7 @@ package ru.benzoback.library.model;
 public class Book {
 
     private Integer id;
+    private String ISN;
     private String author;
     private String title;
     private User user;
@@ -11,8 +12,9 @@ public class Book {
 
     }
 
-    public Book(Integer id, String author, String title, User user) {
+    public Book(Integer id, String isn, String author, String title, User user) {
         this.id = id;
+        this.ISN = isn;
         this.author = author;
         this.title = title;
         this.user = user;
@@ -48,5 +50,13 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getISN() {
+        return ISN;
+    }
+
+    public void setISN(String ISN) {
+        this.ISN = ISN;
     }
 }

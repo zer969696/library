@@ -3,7 +3,7 @@ package ru.benzoback.library.configuration;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
@@ -25,9 +25,14 @@ public class DBConfig {
                 .build();
     }
 
+//    @Bean
+//    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+//        return new NamedParameterJdbcTemplate(dataSource());
+//    }
+
     @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(dataSource());
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
     @Bean

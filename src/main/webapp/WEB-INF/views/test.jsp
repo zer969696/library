@@ -6,12 +6,94 @@
 
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="<c:url value="/static/css/style.css" />">
+    <link rel="stylesheet" href="<c:url value="/static/css/preloader.css" />">
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+    </style>
+
+    <title>Library</title>
 </head>
-<body>
-    <h1>${kek}</h1>
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            <h3>Библиотека</h3>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        </div>
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+            <a href="#overview" class="mdl-layout__tab is-active">Книги</a>
+            <a href="#features" class="mdl-layout__tab">Пользователи</a>
+            <%--<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">--%>
+                <%--<i class="material-icons" role="presentation">add</i>--%>
+                <%--<span class="visuallyhidden">Add</span>--%>
+            <%--</button>--%>
+        </div>
+    </header>
+    <main class="mdl-layout__content">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">ISN</th>
+                    <th>Автор</th>
+                    <th>Название</th>
+                    <th>Кем взята</th>
+                    <th>Удалить</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${books}" var="book">
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">${book.getISN()}</td>
+                        <td>${book.getTitle()}</td>
+                        <td>${book.getAuthor()}</td>
+                        <td>${book.getUser().getName() == null ? "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\">Взять</button>" : book.getUser().getName()}</td>
+                        <td>
+                            <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="test(${book.getId()});">
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+            <div class="cssload-thecube">
+                <div class="cssload-cube cssload-c1"></div>
+                <div class="cssload-cube cssload-c2"></div>
+                <div class="cssload-cube cssload-c4"></div>
+                <div class="cssload-cube cssload-c3"></div>
+            </div>
+        </table>
+        <footer class="mdl-mega-footer">
+            <div class="mdl-mega-footer--bottom-section">
+                <div class="mdl-logo">
+                    by Evgeniy Evzerov
+                </div>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<script src="<c:url value="/static/js/script.js" />"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
 </body>
 </html>

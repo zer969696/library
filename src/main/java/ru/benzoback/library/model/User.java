@@ -1,7 +1,5 @@
 package ru.benzoback.library.model;
 
-import java.util.List;
-
 public class User {
 
     private Integer id;
@@ -11,7 +9,7 @@ public class User {
 
     }
 
-    public User(Integer id, String name, List<Book> books) {
+    public User(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
