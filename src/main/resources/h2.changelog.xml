@@ -5,30 +5,68 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
-    <changeSet id="31012018-1" author="Evgeniy_Evzerov">
+    <changeSet id="31012018-1" author="Evgeniy Evzerov">
         <sql>
             INSERT INTO users(name)
             VALUES ('benzoback');
         </sql>
     </changeSet>
-    <changeSet id="31012018-2" author="Evgeniy_Evzerov">
+    <changeSet id="31012018-2" author="Evgeniy Evzerov">
         <sql>
             INSERT INTO user_account(login, password, user_id)
             VALUES ('log_in', 'password', 1);
         </sql>
     </changeSet>
-    <changeSet id="31012018-3" author="Evgeniy_Evzerov">
+    <changeSet id="31012018-3" author="Evgeniy Evzerov">
         <sql>
-            INSERT INTO books(author, title, user_id)
-            VALUES ('Hemingway', 'Old Man and the Sea', 1);
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10001','Hemingway', 'Old Man and the Sea', 1);
         </sql>
         <sql>
-            INSERT INTO books(author, title, user_id)
-            VALUES ('Orwell', '1984', null);
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10002','Orwell', '1984', null);
         </sql>
         <sql>
-            INSERT INTO books(author, title, user_id)
-            VALUES ('Author of the Book', 'Book title', 1);
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10003','Author of the Book', 'Book title', 1);
+        </sql>
+    </changeSet>
+    <changeSet id="01022018-1" author="Evgeniy Evzerov">
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10004', 'Author 2', 'Book 2', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10005', 'Author 3', 'Book 3', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10006', 'Author 4', 'Book 4', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10007', 'Author 5', 'Book 5', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('10008', 'Author 6', 'Book 6', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('100010', 'Author 7', 'Book 7', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('100011', 'Author 8', 'Book 8', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('100012', 'Author 9', 'Book 9', null);
+        </sql>
+        <sql>
+            INSERT INTO books(isn, author, title, user_id)
+            VALUES ('100013', 'Author 10', 'Book 10', null);
         </sql>
     </changeSet>
 </databaseChangeLog>
