@@ -39,6 +39,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User findByLogin(String login) {
+        return jdbcTemplate.query("SELECT * FROM users, user_account WHERE users.id = user_account.id AND user_account.login = ?", new Object[]{ login }, resultSet -> {
+            if (resultSet.next()) {
+                return userRowMapper.mapRow(resultSet, 0);
+            } else {
+                return null;
+            }
+        });
+    }
+
+    @Override
     public List<User> findAllUsers() {
         return jdbcTemplate.query("SELECT * FROM users", resultSet -> {
             List<User> usersList = new ArrayList<>();

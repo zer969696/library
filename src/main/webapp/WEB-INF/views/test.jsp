@@ -67,7 +67,12 @@
                         <td class="mdl-data-table__cell--non-numeric">${book.getISN()}</td>
                         <td>${book.getTitle()}</td>
                         <td>${book.getAuthor()}</td>
-                        <td>${book.getUser().getName() == null ? "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\">Взять</button>" : book.getUser().getName()}</td>
+                        <c:if test="${currentUser != book.getUser().getName()}">
+                            <td>${book.getUser().getName() == null ? "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\">Взять</button>" : book.getUser().getName()}</td>
+                        </c:if>
+                        <c:if test="${currentUser == book.getUser().getName()}">
+                            <td><button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Вернуть</button></td>
+                        </c:if>
                         <td>
                             <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="deleteBook(${book.getId()});">
                                 Удалить
