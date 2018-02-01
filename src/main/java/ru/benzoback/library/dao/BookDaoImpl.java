@@ -23,7 +23,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findAllBooks(int page){
-        return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id;", resultSet -> {
+        return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id ORDER BY id ASC", resultSet -> {
             List<Book> books = new ArrayList<>();
 
             int id = 0;
@@ -31,12 +31,15 @@ public class BookDaoImpl implements BookDao {
                 books.add(bookRowMapper.mapRow(resultSet, id++));
             }
 
+            int fromIndex = (page - 1) * 5;
+            int toIndex = (page * 5);
+
             if (page == 0) {
                 return books;
             } else if (page * 5 < books.size() && page > 0) {
-                return books.subList((page - 1) * 5, (page * 5) - 1);
-            } else if (page > 0 && (page - 1) * 5 < books.size()) {
-                return books.subList((page - 1) * 5, books.size());
+                return books.subList(fromIndex, toIndex);
+            } else if (page > 0 && fromIndex < books.size()) {
+                return books.subList(fromIndex, books.size());
             }
 
             return null;
@@ -56,11 +59,11 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public int takeBook(User user, int bookId) {
-        return jdbcTemplate.update("UPDATE books SET user = ? where id = ?", user, bookId);
+        return jdbcTemplate.update("UPDATE books SET user_id = ? where id = ?", user.getId(), bookId);
     }
 
     @Override
     public int putBook(User user, int bookId) {
-        return jdbcTemplate.update("UPDATE books SET user = ? where id = ?", null, bookId);
+        return jdbcTemplate.update("UPDATE books SET user_id = ? where id = ?", null, bookId);
     }
 }
