@@ -19,7 +19,7 @@ public class MainController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String test(Model model) {
-        List<Book> allBooks = dao.findBooksWithUserName();
+        List<Book> allBooks = dao.findBooksWithUserName(1);
         model.addAttribute("books", allBooks);
         return "test";
     }

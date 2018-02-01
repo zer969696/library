@@ -67,20 +67,25 @@
                         <td>${book.getAuthor()}</td>
                         <td>${book.getUser().getName() == null ? "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\">Взять</button>" : book.getUser().getName()}</td>
                         <td>
-                            <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="test(${book.getId()});">
+                            <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="deleteBook(${book.getId()});">
                                 Удалить
                             </button>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
-            <div class="cssload-thecube">
-                <div class="cssload-cube cssload-c1"></div>
-                <div class="cssload-cube cssload-c2"></div>
-                <div class="cssload-cube cssload-c4"></div>
-                <div class="cssload-cube cssload-c3"></div>
-            </div>
         </table>
+        <div class="cssload-thecube">
+            <div class="cssload-cube cssload-c1"></div>
+            <div class="cssload-cube cssload-c2"></div>
+            <div class="cssload-cube cssload-c4"></div>
+            <div class="cssload-cube cssload-c3"></div>
+        </div>
+        <div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent show-more-button" onclick="showMore(1)">
+                Показать ещё
+            </button>
+        </div>
         <footer class="mdl-mega-footer">
             <div class="mdl-mega-footer--bottom-section">
                 <div class="mdl-logo">

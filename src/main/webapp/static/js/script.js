@@ -1,8 +1,32 @@
-function test(id) {
-    //console.log(id);
-    makeRequest('get', '/api/books/delete/' + id, null).done(function(result) {
-        reloadView();
-    });
+function deleteBook(id) {
+    if (confirm('Удалить книгу?')) {
+        makeRequest('get', '/api/books/delete/' + id, null).done(function(result) {
+            reloadView();
+        });
+    } else {
+        alert('Книга не была удалена!');
+    }
+}
+
+function showMore(page) {
+    $('button.show-more-button').attr('onclick', 'showMore(' + ++page + ')');
+
+    togglePreloader();
+
+    makeRequest('get', '/api/books/all', { page: page }).done(
+        function (result) {
+            let tableBody = $('tbody');
+
+            for (let i = 0; i < result.length; i++) {
+                let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user.name, result[i].id);
+                tableBody.append(element);
+            }
+
+            setTimeout(function () {
+                togglePreloader();
+            }, 1000);
+        }
+    )
 }
 
 function makeRequest(type, url, data) {

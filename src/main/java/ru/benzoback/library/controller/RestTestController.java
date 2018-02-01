@@ -13,8 +13,8 @@ public class RestTestController {
     BookDao bookDao;
 
     @GetMapping("/all")
-    public ResponseEntity<?> getPersons() {
-        return ResponseEntity.ok(bookDao.findBooksWithUserName());
+    public ResponseEntity<?> getAllBooks(@RequestParam(value = "page", required = false) Integer page) {
+        return ResponseEntity.ok(bookDao.findBooksWithUserName(page));
     }
 
     @GetMapping("/delete/{id}")

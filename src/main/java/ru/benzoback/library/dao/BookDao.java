@@ -26,7 +26,7 @@ public class BookDao {
     @Autowired
     RowMapper<Book> bookRowMapper;
 
-    public List<Book> findBooksWithUserName(){
+    public List<Book> findBooksWithUserName(Integer page){
         return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id;", resultSet -> {
             List<Book> books = new ArrayList<>();
             Integer bookId = null;
@@ -42,7 +42,12 @@ public class BookDao {
                 }
                 currentBook.setUser(userMapper.mapRow(resultSet, itemIdx++));
             }
-            return books;
+
+            if (page != null && page > 0 && books.size() / 5 >= page) {
+                return books.subList((page - 1) * 5, (page * 5));
+            } else {
+                return books;
+            }
         });
     }
 
