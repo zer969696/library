@@ -20,6 +20,14 @@ public class Book {
         this.user = user;
     }
 
+    public Book(String isn, String author, String title, User user) {
+        this.id = id;
+        this.ISN = isn;
+        this.author = author;
+        this.title = title;
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }

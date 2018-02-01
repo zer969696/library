@@ -1,11 +1,11 @@
-package ru.benzoback.library.dao;
+package ru.benzoback.library.service;
 
 import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookService {
 
     List<Book> findAllBooks(int page);
     int deleteBook(int id);
