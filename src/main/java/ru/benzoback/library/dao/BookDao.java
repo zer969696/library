@@ -49,15 +49,15 @@ public class BookDao {
                 books.add(bookRowMapper.mapRow(resultSet, id++));
             }
 
-            if (page != null && page > 0 && (books.size() / 5) + 1 >= page) {
-                return books.subList((page - 1) * 5, (page * 5) > books.size() ? books.size() : (page * 5));
+            if (page == null || page == 0) {
+                return books;
+            } else if (page * 5 < books.size() && page > 0) {
+                return books.subList((page - 1) * 5, (page * 5) - 1);
+            } else if (page > 0 && (page - 1) * 5 < books.size()) {
+                return books.subList((page - 1) * 5, books.size());
             }
 
-            if (page != null && (books.size() / 5) + 1 >= page) {
-                return null;
-            }
-
-            return books;
+            return null;
         });
     }
 
