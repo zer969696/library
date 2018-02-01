@@ -199,3 +199,8 @@ table {
 .show-more-button {
     width: 100%;
 }
+
+.logout-tab {
+    position: absolute;
+    right: 15px;
+}

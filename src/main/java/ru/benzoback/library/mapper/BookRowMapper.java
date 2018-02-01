@@ -1,5 +1,6 @@
 package ru.benzoback.library.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.benzoback.library.model.Book;
@@ -11,6 +12,9 @@ import java.sql.SQLException;
 @Component
 public class BookRowMapper implements RowMapper {
 
+    @Autowired
+    private RowMapper<User> userRowMapper;
+
     @Override
     public Object mapRow(ResultSet resultSet, int i) throws SQLException {
 
@@ -20,7 +24,7 @@ public class BookRowMapper implements RowMapper {
         book.setAuthor(resultSet.getString("author"));
         book.setTitle(resultSet.getString("title"));
         book.setISN(resultSet.getString("isn"));
-        book.setUser(new User(resultSet.getInt("user_id"), "testName"));
+        book.setUser(userRowMapper.mapRow(resultSet, i));
 
         return book;
     }

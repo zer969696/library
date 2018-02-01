@@ -1,17 +1,16 @@
 package ru.benzoback.library.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Repository("bookDao")
 public class BookDao {
 
 //    @Autowired
@@ -20,27 +19,34 @@ public class BookDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private final static RowMapper<User> userMapper = BeanPropertyRowMapper.newInstance(User.class);
+    //private final static RowMapper<User> userMapper = BeanPropertyRowMapper.newInstance(User.class);
     //private final static RowMapper<Book> bookMapper = BeanPropertyRowMapper.newInstance(Book.class);
 
     @Autowired
     RowMapper<Book> bookRowMapper;
+    @Autowired
+    RowMapper<User> userRowMapper;
 
     public List<Book> findBooksWithUserName(Integer page){
         return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id;", resultSet -> {
+//            List<Book> books = new ArrayList<>();
+//            Integer bookId = null;
+//            Book currentBook = null;
+//            int bookIdx = 0;
+//            int itemIdx = 0;
+//            while (resultSet.next()) {
+//                if (currentBook == null || !bookId.equals(resultSet.getInt("id"))) {
+//                    bookId = resultSet.getInt("id");
+//                    currentBook = bookRowMapper.mapRow(resultSet, bookIdx++);
+//                    itemIdx = 0;
+//                    books.add(currentBook);
+//                }
+//                currentBook.setUser(userRowMapper.mapRow(resultSet, itemIdx++));
+//            }
             List<Book> books = new ArrayList<>();
-            Integer bookId = null;
-            Book currentBook = null;
-            int bookIdx = 0;
-            int itemIdx = 0;
+            int id = 0;
             while (resultSet.next()) {
-                if (currentBook == null || !bookId.equals(resultSet.getInt("id"))) {
-                    bookId = resultSet.getInt("id");
-                    currentBook = bookRowMapper.mapRow(resultSet, bookIdx++);
-                    itemIdx = 0;
-                    books.add(currentBook);
-                }
-                currentBook.setUser(userMapper.mapRow(resultSet, itemIdx++));
+                books.add(bookRowMapper.mapRow(resultSet, id++));
             }
 
             if (page != null && page > 0 && (books.size() / 5) + 1 >= page) {
