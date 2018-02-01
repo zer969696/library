@@ -43,11 +43,15 @@ public class BookDao {
                 currentBook.setUser(userMapper.mapRow(resultSet, itemIdx++));
             }
 
-            if (page != null && page > 0 && books.size() / 5 >= page) {
-                return books.subList((page - 1) * 5, (page * 5));
-            } else {
-                return books;
+            if (page != null && page > 0 && (books.size() / 5) + 1 >= page) {
+                return books.subList((page - 1) * 5, (page * 5) > books.size() ? books.size() : (page * 5));
             }
+
+            if (page != null && (books.size() / 5) + 1 >= page) {
+                return null;
+            }
+
+            return books;
         });
     }
 

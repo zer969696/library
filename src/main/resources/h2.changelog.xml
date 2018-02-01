@@ -9,12 +9,24 @@
         <sql>
             INSERT INTO users(name)
             VALUES ('benzoback');
+
+            INSERT INTO users(name)
+            VALUES ('juliya');
+
+            INSERT INTO users(name)
+            VALUES ('leonid');
         </sql>
     </changeSet>
     <changeSet id="31012018-2" author="Evgeniy Evzerov">
         <sql>
             INSERT INTO user_account(login, password, user_id)
             VALUES ('log_in', 'password', 1);
+
+            INSERT INTO user_account(login, password, user_id)
+            VALUES ('log_in1', 'password1', 2);
+
+            INSERT INTO user_account(login, password, user_id)
+            VALUES ('log_in2', 'password2', 3);
         </sql>
     </changeSet>
     <changeSet id="31012018-3" author="Evgeniy Evzerov">
@@ -42,11 +54,11 @@
         </sql>
         <sql>
             INSERT INTO books(isn, author, title, user_id)
-            VALUES ('10006', 'Author 4', 'Book 4', null);
+            VALUES ('10006', 'Author 4', 'Book 4', 2);
         </sql>
         <sql>
             INSERT INTO books(isn, author, title, user_id)
-            VALUES ('10007', 'Author 5', 'Book 5', null);
+            VALUES ('10007', 'Author 5', 'Book 5', 2);
         </sql>
         <sql>
             INSERT INTO books(isn, author, title, user_id)
@@ -54,7 +66,7 @@
         </sql>
         <sql>
             INSERT INTO books(isn, author, title, user_id)
-            VALUES ('100010', 'Author 7', 'Book 7', null);
+            VALUES ('100010', 'Author 7', 'Book 7', 3);
         </sql>
         <sql>
             INSERT INTO books(isn, author, title, user_id)

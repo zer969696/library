@@ -52,7 +52,7 @@
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
                 <tr>
-                    <th class="mdl-data-table__cell--non-numeric">ISN</th>
+                    <th class="mdl-data-table__cell--non-numeric">ISBN</th>
                     <th>Автор</th>
                     <th>Название</th>
                     <th>Кем взята</th>
@@ -82,7 +82,7 @@
             <div class="cssload-cube cssload-c3"></div>
         </div>
         <div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent show-more-button" onclick="showMore(1)">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored show-more-button" onclick="showMore(1)">
                 Показать ещё
             </button>
         </div>

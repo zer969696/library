@@ -64,7 +64,7 @@ function createBookElement(isn, title, author, userName, id) {
                         <td>` + author + `</td>
                         <td>` + (userName === null ? buttonTake : userName) + `</td>
                         <td>
-                            <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="test(` + id + `);">
+                            <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="deleteBook(` + id + `);">
                                 Удалить
                             </button>
                         </td>
