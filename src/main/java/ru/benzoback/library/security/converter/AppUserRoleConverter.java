@@ -5,15 +5,7 @@ import ru.benzoback.library.security.model.AppUser;
 public class AppUserRoleConverter {
 
     public String[] convertClientRolesArray(AppUser appUser) {
-//        Set<Role> clientRoles = customUser.getRoles();
-//        Role[] clientRolesArray = clientRoles.toArray(new Role[clientRoles.size()]);
-//
-//        String[] clientType = new String[clientRolesArray.length];
-//        for (int i = 0; i < clientRolesArray.length; i++){
-//            clientType[i] = clientRolesArray[i].getDescription();
-//        }
-        String[] array = new String[] { "ROLE_ADMIN" };
-        return array;
+        return new String[] { "ROLE_ADMIN" };
     }
 
     public String toString(String[] roles) {

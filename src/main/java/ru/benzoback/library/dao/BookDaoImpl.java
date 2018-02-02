@@ -13,13 +13,14 @@ import java.util.List;
 @Repository("bookDao")
 public class BookDaoImpl implements BookDao {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+    private RowMapper<Book> bookRowMapper;
 
     @Autowired
-    RowMapper<Book> bookRowMapper;
-    @Autowired
-    RowMapper<User> userRowMapper;
+    public BookDaoImpl(JdbcTemplate jdbcTemplate, RowMapper<Book> bookRowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.bookRowMapper = bookRowMapper;
+    }
 
     @Override
     public List<Book> findAllBooks(int page, String orderBy, String sortDir) {

@@ -4,20 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.benzoback.library.model.User;
 import ru.benzoback.library.model.UserAccount;
 
 
 @Repository("userAccountDao")
 public class UserAccountDaoImpl implements UserAccountDao {
 
-    private RowMapper<User> userRowMapper;
     private RowMapper<UserAccount> userAccountRowMapper;
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    UserAccountDaoImpl(RowMapper<User> userRowMapper, RowMapper<UserAccount> userAccountRowMapper, JdbcTemplate jdbcTemplate) {
-        this.userRowMapper = userRowMapper;
+    UserAccountDaoImpl(RowMapper<UserAccount> userAccountRowMapper, JdbcTemplate jdbcTemplate) {
         this.userAccountRowMapper = userAccountRowMapper;
         this.jdbcTemplate = jdbcTemplate;
     }
