@@ -22,8 +22,16 @@ public class BookDaoImpl implements BookDao {
     RowMapper<User> userRowMapper;
 
     @Override
-    public List<Book> findAllBooks(int page){
-        return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id ORDER BY id ASC", resultSet -> {
+    public List<Book> findAllBooks(int page, String orderBy, String sortDir) {
+
+        String sql;
+        if (orderBy != null && sortDir != null && !orderBy.equals("") && !sortDir.equals("")) {
+            sql = "SELECT * FROM books LEFT JOIN users ON books.user_id = users.id ORDER BY " + orderBy + " " + sortDir;
+        } else {
+            sql = "SELECT * FROM books LEFT JOIN users ON books.user_id = users.id ORDER BY id ASC";
+        }
+
+        return jdbcTemplate.query(sql, resultSet -> {
             List<Book> books = new ArrayList<>();
 
             int id = 0;
@@ -47,23 +55,53 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public List<Book> findAllBooksById(int id) {
+        return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id WHERE user_id = ?", new Object[]{ id }, resultSet -> {
+            List<Book> books = new ArrayList<>();
+
+            int i = 0;
+            while (resultSet.next()) {
+                books.add(bookRowMapper.mapRow(resultSet, i++));
+            }
+
+            return books;
+        });
+    }
+
+    @Override
     public int deleteBook(int bookId) {
         return jdbcTemplate.update("DELETE FROM books WHERE id = ?", bookId);
     }
 
     @Override
     public int addBook(Book book) {
-        return jdbcTemplate.update("INSERT INTO books (isn, author, title, user) VALUES(?, ?, ?, ?)",
-                book.getISN(), book.getAuthor(), book.getTitle(), book.getUser());
+        return jdbcTemplate.update("INSERT INTO books (isn, author, title, user_id) VALUES(?, ?, ?, ?)",
+                book.getISN(), book.getAuthor(), book.getTitle(), null);
+    }
+
+    @Override
+    public int updateBook(Book book) {
+        return jdbcTemplate.update(
+                "UPDATE books SET isn = ?, title = ?, author = ? WHERE id = ?",
+                book.getISN(), book.getTitle(), book.getAuthor(), book.getId()
+        );
+    }
+
+    @Override
+    public int updateBookUserId(Book book) {
+        return jdbcTemplate.update(
+                "UPDATE books SET isn = ?, title = ?, author = ?, user_id = ? WHERE id = ?",
+                book.getISN(), book.getTitle(), book.getAuthor(), book.getUser() == null ? null : book.getUser().getId(), book.getId()
+        );
     }
 
     @Override
     public int takeBook(User user, int bookId) {
-        return jdbcTemplate.update("UPDATE books SET user_id = ? where id = ?", user.getId(), bookId);
+        return jdbcTemplate.update("UPDATE books SET user_id = ? WHERE id = ?", user.getId(), bookId);
     }
 
     @Override
     public int putBook(User user, int bookId) {
-        return jdbcTemplate.update("UPDATE books SET user_id = ? where id = ?", null, bookId);
+        return jdbcTemplate.update("UPDATE books SET user_id = ? WHERE id = ?", null, bookId);
     }
 }

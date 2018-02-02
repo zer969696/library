@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
 import ru.benzoback.library.model.UserAccount;
 
@@ -17,12 +18,14 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private RowMapper<User> userRowMapper;
+    private BookDao bookDao;
     private UserAccountDao userAccountDao;
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserDaoImpl(RowMapper<User> userRowMapper, UserAccountDao userDao, JdbcTemplate jdbcTemplate) {
+    public UserDaoImpl(RowMapper<User> userRowMapper, BookDao bookDao, UserAccountDao userDao, JdbcTemplate jdbcTemplate) {
         this.userRowMapper = userRowMapper;
+        this.bookDao = bookDao;
         this.userAccountDao = userDao;
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -51,7 +54,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAllUsers() {
-        return jdbcTemplate.query("SELECT * FROM users", resultSet -> {
+        // SELECT users.id, users.name FROM users, user_account WHERE users.id = user_account.user_id ORDER BY user_account.login ASC
+        return jdbcTemplate.query("SELECT * FROM users ORDER BY name ASC", resultSet -> {
             List<User> usersList = new ArrayList<>();
 
             int id = 0;
@@ -75,7 +79,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public int editUser(User user, UserAccount userAccount) {
+        jdbcTemplate.update("UPDATE user_account SET login = ?, password = ? WHERE user_id = ?", userAccount.getLogin(), userAccount.getPassword(), user.getId());
+        return jdbcTemplate.update("UPDATE users SET name = ? WHERE id = ?", user.getName(), user.getId());
+
+    }
+
+    @Override
     public int deleteUser(int id) {
+        List<Book> books = bookDao.findAllBooksById(id);
+        for (Book book : books) {
+            book.setUser(null);
+            bookDao.updateBookUserId(book);
+        }
         return jdbcTemplate.update("DELETE FROM users WHERE users.id = ?", id);
     }
 }
