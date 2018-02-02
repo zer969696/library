@@ -42,12 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         http.headers().frameOptions().disable();
 
-        http.csrf().disable() // disable csrf for our requests.
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
                 .antMatchers(HttpMethod.POST,"/auth").permitAll()
-//                .antMatchers("/employee/**").access("hasRole('EMPLOYEE')")
-//                .antMatchers("/client/**").access("hasRole('CLIENT')")
                 .antMatchers("/console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

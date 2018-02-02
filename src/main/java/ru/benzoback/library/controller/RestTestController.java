@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.benzoback.library.dao.BookDao;
 import ru.benzoback.library.dao.UserDao;
+import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
 
 @RestController
@@ -23,8 +24,10 @@ public class RestTestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllBooks(@RequestParam(value = "page", required = false) Integer page) {
-        return ResponseEntity.ok(bookDao.findAllBooks(page));
+    public ResponseEntity<?> getAllBooks(@RequestParam(value = "page", required = false) Integer page,
+                                         @RequestParam(value = "orderBy", required = false) String orderBy,
+                                         @RequestParam(value = "sortDir", required = false) String sortDir) {
+        return ResponseEntity.ok(bookDao.findAllBooks(page, orderBy, sortDir));
     }
 
     @GetMapping("/delete/{id}")
@@ -47,4 +50,20 @@ public class RestTestController {
 
         return ResponseEntity.ok(bookDao.takeBook(user, id));
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addBook(@RequestParam(value = "isbn", required = false) String isbn, @RequestParam(value = "title", required = false) String title, @RequestParam(value = "author", required = false) String author) {
+        Book book = new Book(isbn, author, title, null);
+
+        return ResponseEntity.ok(bookDao.addBook(book));
+    }
+
+    @PostMapping("/edit")
+    public ResponseEntity<?> editBook(@RequestParam(value = "isbn", required = false) String isbn, @RequestParam(value = "title", required = false) String title, @RequestParam(value = "author", required = false) String author, @RequestParam(value = "id", required = false) Integer id) {
+        Book book = new Book(isbn, author, title, null);
+        book.setId(id);
+
+        return ResponseEntity.ok(bookDao.updateBook(book));
+    }
+
 }

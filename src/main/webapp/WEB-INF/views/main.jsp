@@ -15,6 +15,7 @@
           href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="<c:url value="/static/css/style.css" />">
+    <link rel="stylesheet" href="<c:url value="/static/css/mdl-modal.css" />">
     <link rel="stylesheet" href="<c:url value="/static/css/preloader.css" />">
     <style>
         #view-source {
@@ -44,11 +45,11 @@
             <a href="#overview" class="mdl-layout__tab is-active">Книги</a>
             <a href="#features" class="mdl-layout__tab">Пользователи</a>
             <a href="<c:url value="/logout" />" class="mdl-layout__tab logout-tab">Выйти</a>
-            <!-- Accent-colored raised button with ripple -->
-            <%--<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">--%>
-            <%--<i class="material-icons" role="presentation">add</i>--%>
-            <%--<span class="visuallyhidden">Add</span>--%>
-            <%--</button>--%>
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
+                    id="add" onclick="showModal('${currentUser}')">
+                <i class="material-icons" role="presentation">add</i>
+                <span class="visuallyhidden">Add</span>
+            </button>
         </div>
     </header>
     <main class="mdl-layout__content">
@@ -56,8 +57,8 @@
             <thead>
             <tr>
                 <th class="mdl-data-table__cell--non-numeric">ISBN</th>
-                <th>Автор</th>
-                <th>Название</th>
+                <th id="author" onclick="sort('author', 'asc', '${currentUser}')">Автор</th>
+                <th id="title" onclick="sort('title', 'asc', '${currentUser}')">Название</th>
                 <th>Кем взята</th>
                 <th>Удалить</th>
             </tr>
@@ -65,7 +66,7 @@
             <tbody>
             <c:forEach items="${books}" var="book">
                 <tr>
-                    <td class="mdl-data-table__cell--non-numeric">${book.getISN()}</td>
+                    <td class="mdl-data-table__cell--non-numeric" onclick="showEditModal('${currentUser}', '${book.getISN()}', '${book.getTitle()}', '${book.getAuthor()}', '${book.getId().toString()}')">${book.getISN()}</td>
                     <td>${book.getTitle()}</td>
                     <td>${book.getAuthor()}</td>
                     <c:if test="${currentUser != book.getUser().getName()}">
@@ -120,6 +121,7 @@
 </div>
 
 <script src="<c:url value="/static/js/script.js" />"></script>
+<script src="<c:url value="/static/js/mdl-modal.js" />"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 

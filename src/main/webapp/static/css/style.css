@@ -79,8 +79,8 @@ html, body {
 }
 .mdl-demo #add {
     position: absolute;
-    right: 40px;
-    top: 36px;
+    right: 36px;
+    top: -120px;
     z-index: 999;
 }
 
