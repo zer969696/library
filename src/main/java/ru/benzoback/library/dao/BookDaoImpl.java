@@ -15,13 +15,11 @@ public class BookDaoImpl implements BookDao {
 
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Book> bookRowMapper;
-    private RowMapper<User> userRowMapper;
 
     @Autowired
-    public BookDaoImpl(JdbcTemplate jdbcTemplate, RowMapper<Book> bookRowMapper, RowMapper<User> userRowMapper) {
+    public BookDaoImpl(JdbcTemplate jdbcTemplate, RowMapper<Book> bookRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.bookRowMapper = bookRowMapper;
-        this.userRowMapper = userRowMapper;
     }
 
     @Override
