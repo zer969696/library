@@ -20,7 +20,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = { AppConfig.class})
 @WebAppConfiguration
-public class UserServiceImplTest {
+public class BookDaoImplTest {
 
     @Autowired
     private BookDao bookDao;

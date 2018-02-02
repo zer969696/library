@@ -97,7 +97,7 @@
     </main>
 </div>
 
-<script src="<c:url value="/static/js/script_2.js" />"></script>
+<script src="<c:url value="/static/js/script_users.js" />"></script>
 <script src="<c:url value="/static/js/mdl-modal.js" />"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>

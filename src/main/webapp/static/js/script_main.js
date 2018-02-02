@@ -1,7 +1,7 @@
-function deleteBook(id) {
+function deleteBook(id, currentUser) {
     if (confirm('Удалить книгу?')) {
         makeRequest('get', '/api/books/delete/' + id, null).done(function (result) {
-            reloadView();
+            reloadView(currentUser);
         });
     } else {
         alert('Книга не была удалена!');
@@ -167,7 +167,7 @@ function showMore(page, currentUser) {
             let tableBody = $('tbody');
 
             for (let i = 0; i < result.length; i++) {
-                let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user.name, result[i].id, currentUser);
+                let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user == null? null : result[i].user.name, result[i].id, currentUser);
                 tableBody.append(element);
             }
 
@@ -214,7 +214,7 @@ function reloadView(currentUser) {
     $('button.show-more-button').attr('onclick', 'showMore(' + 1 + ', \'' + currentUser + '\')');
     makeRequest('get', '/api/books/all', {page: 1}).done(function (result) {
         for (let i = 0; i < result.length; i++) {
-            let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user.name, result[i].id, currentUser);
+            let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user == null? null : result[i].user.name, result[i].id, currentUser);
             tableBody.append(element);
         }
 
@@ -234,7 +234,7 @@ function reloadViewSort(orderBy, sortDir, currentUser) {
     $('button.show-more-button').attr('onclick', 'showMore(' + 1 + ', \'' + currentUser + '\')');
     makeRequest('get', '/api/books/all', {page: 1, orderBy: orderBy, sortDir: sortDir}).done(function (result) {
         for (let i = 0; i < result.length; i++) {
-            let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user.name, result[i].id, currentUser);
+            let element = createBookElement(result[i].isn, result[i].title, result[i].author, result[i].user == null? null : result[i].user.name, result[i].id, currentUser);
             tableBody.append(element);
         }
 
@@ -249,7 +249,7 @@ function createBookElement(isn, title, author, userName, id, currentUser) {
     let buttonTake = "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\" onclick=\"takeBook(" + id + ", '" + currentUser + "')\">Взять</button>";
     let buttonPut;
     if (userName === currentUser) {
-        buttonPut = "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\" onclick=\"putBook(" + id + ")\">Вернуть</button>";
+        buttonPut = "<button class=\"mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored\" onclick=\"putBook(" + id + ", '" + currentUser + "')\">Вернуть</button>";
     } else {
         buttonPut = userName;
     }
