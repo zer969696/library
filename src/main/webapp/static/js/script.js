@@ -251,7 +251,7 @@ function createBookElement(isn, title, author, userName, id, currentUser) {
         buttonPut = userName;
     }
     let element = `<tr>
-                        <td class="mdl-data-table__cell--non-numeric" onclick="showEditModal(\'` + currentUser + `\', \'` + isn + `\', \'` + title + `\', \'` + author + `\', \'` + id + `\')">` + isn + `</td>
+                        <td class="mdl-data-table__cell--non-numeric cursor-pointer" onclick="showEditModal(\'` + currentUser + `\', \'` + isn + `\', \'` + title + `\', \'` + author + `\', \'` + id + `\')">` + isn + `</td>
                         <td>` + title + `</td>
                         <td>` + author + `</td>
                         <td>` + (userName === null ? buttonTake : buttonPut) + `</td>

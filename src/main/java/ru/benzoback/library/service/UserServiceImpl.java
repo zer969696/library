@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int editUser(User user, UserAccount userAccount) {
+        return dao.editUser(user, userAccount);
+    }
+
+    @Override
     public int deleteUser(int id) {
         return dao.deleteUser(id);
     }

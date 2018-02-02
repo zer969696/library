@@ -38,6 +38,14 @@ public class MainController {
         return "main";
     }
 
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public String users(Model model) {
+        List<User> users = userDao.findAllUsers();
+        model.addAttribute("users", users);
+
+        return "users";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String auth() {
         return "login";

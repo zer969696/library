@@ -42,11 +42,11 @@
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-            <a href="#overview" class="mdl-layout__tab is-active">Книги</a>
-            <a href="#features" class="mdl-layout__tab">Пользователи</a>
+            <a href="#overview" class="mdl-layout__tab">Книги</a>
+            <a href="#features" class="mdl-layout__tab is-active">Пользователи</a>
             <a href="<c:url value="/logout" />" class="mdl-layout__tab logout-tab">Выйти</a>
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
-                    id="add" onclick="showModal('${currentUser}')">
+                    id="add" onclick="showModal()">
                 <i class="material-icons" role="presentation">add</i>
                 <span class="visuallyhidden">Add</span>
             </button>
@@ -56,41 +56,18 @@
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
             <tr>
-                <th class="mdl-data-table__cell--non-numeric">ISBN</th>
-                <th class="cursor-pointer" id="author" onclick="sort('author', 'asc', '${currentUser}')">Автор</th>
-                <th class="cursor-pointer" id="title" onclick="sort('title', 'asc', '${currentUser}')">Название</th>
-                <th>Кем взята</th>
+                <th class="mdl-data-table__cell--non-numeric">Имя пользователя</th>
                 <th>Удалить</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${books}" var="book">
+            <c:forEach items="${users}" var="user">
                 <tr>
-                    <td class="mdl-data-table__cell--non-numeric cursor-pointer" onclick="showEditModal('${currentUser}', '${book.getISN()}', '${book.getTitle()}', '${book.getAuthor()}', '${book.getId().toString()}')">${book.getISN()}</td>
-                    <td>${book.getTitle()}</td>
-                    <td>${book.getAuthor()}</td>
-                    <c:if test="${currentUser != book.getUser().getName()}">
-                        <c:if test="${book.getUser().getName() == null}">
-                            <td>
-                                <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                                        onclick="takeBook(${book.getId().toString()}, '${currentUser}');">Взять
-                                </button>
-                            </td>
-                        </c:if>
-                        <c:if test="${book.getUser().getName() != null}">
-                            <td>${book.getUser().getName()}</td>
-                        </c:if>
-                    </c:if>
-                    <c:if test="${currentUser == book.getUser().getName()}">
-                        <td>
-                            <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                                    onclick="putBook(${book.getId()}, '${currentUser}');">Вернуть
-                            </button>
-                        </td>
-                    </c:if>
+                    <td class="mdl-data-table__cell--non-numeric cursor-pointer"
+                        onclick="showEditModal('${user.getName()}', '${user.getId()}')">${user.getName()}</td>
                     <td>
                         <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                                onclick="deleteBook(${book.getId()});">
+                                onclick="deleteUser(${user.getId()});">
                             Удалить
                         </button>
                     </td>
@@ -104,12 +81,12 @@
             <div class="cssload-cube cssload-c4"></div>
             <div class="cssload-cube cssload-c3"></div>
         </div>
-        <div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored show-more-button"
-                    onclick="showMore(1, '${currentUser}')">
-                Показать ещё
-            </button>
-        </div>
+        <%--<div>--%>
+        <%--<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored show-more-button"--%>
+        <%--onclick="showMore(1, '${currentUser}')">--%>
+        <%--Показать ещё--%>
+        <%--</button>--%>
+        <%--</div>--%>
         <footer class="mdl-mega-footer">
             <div class="mdl-mega-footer--bottom-section">
                 <div class="mdl-logo">
@@ -120,7 +97,7 @@
     </main>
 </div>
 
-<script src="<c:url value="/static/js/script.js" />"></script>
+<script src="<c:url value="/static/js/script_2.js" />"></script>
 <script src="<c:url value="/static/js/mdl-modal.js" />"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>

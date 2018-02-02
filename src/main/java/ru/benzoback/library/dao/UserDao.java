@@ -11,5 +11,6 @@ public interface UserDao {
     User findByLogin(String login);
     List<User> findAllUsers();
     int addUser(User user, UserAccount userAccount);
+    int editUser(User user, UserAccount userAccount);
     int deleteUser(int id);
 }

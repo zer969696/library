@@ -75,6 +75,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public int editUser(User user, UserAccount userAccount) {
+        jdbcTemplate.update("UPDATE user_account SET login = ?, password = ? WHERE user_id = ?", userAccount.getLogin(), userAccount.getPassword(), user.getId());
+        return jdbcTemplate.update("UPDATE users SET name = ? WHERE id = ?", user.getName(), user.getId());
+
+    }
+
+    @Override
     public int deleteUser(int id) {
         return jdbcTemplate.update("DELETE FROM users WHERE users.id = ?", id);
     }

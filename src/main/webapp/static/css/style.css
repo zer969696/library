@@ -204,3 +204,7 @@ table {
     position: absolute;
     right: 15px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}

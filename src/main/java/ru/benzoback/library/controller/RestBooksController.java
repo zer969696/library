@@ -12,13 +12,13 @@ import ru.benzoback.library.model.User;
 
 @RestController
 @RequestMapping("/api/books")
-public class RestTestController {
+public class RestBooksController {
 
     private UserDao userDao;
     private BookDao bookDao;
 
     @Autowired
-    public RestTestController(UserDao userDao, BookDao bookDao) {
+    public RestBooksController(UserDao userDao, BookDao bookDao) {
         this.userDao = userDao;
         this.bookDao = bookDao;
     }
