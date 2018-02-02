@@ -18,7 +18,6 @@ import java.util.Date;
 public class TokenAuthenticationService {
 
     private AppUserRoleConverter userRoleConverter = new AppUserRoleConverter();
-    private UserService userService;
     private UserAccountService userAccountService;
 
     private int EXPIRATION_TIME = 1000 * 60 * 5 ; // 5 min
@@ -29,13 +28,12 @@ public class TokenAuthenticationService {
 
     TokenAuthenticationService(UserService userService, UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
-        this.userService = userService;
     }
 
     void addAuthentication(HttpServletResponse response, String login) {
         AppUser customUser = new AppUserDao(userAccountService).getAppUser(login);
         String userRole = userRoleConverter.toString(userRoleConverter.convertClientRolesArray(customUser));
-        // We generate a token now.
+
         String JWT = Jwts.builder()
                 .setSubject(login)
                 .setIssuer(userRole)
@@ -52,7 +50,6 @@ public class TokenAuthenticationService {
 
     Authentication getAuthentication(HttpServletRequest request) {
         String token = null;
-        //token = request.getHeader(headerString);
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             return null;
@@ -62,11 +59,9 @@ public class TokenAuthenticationService {
                 token = cookie.getValue();
             }
         }
-        //response.addCookie(new Cookie("Authorization", token));
 
         try {
             if (token != null) {
-                // parse the token.
                 String username = Jwts.parser()
                         .setSigningKey(secret)
                         .parseClaimsJws(token)
@@ -84,7 +79,6 @@ public class TokenAuthenticationService {
                 }
             }
         } catch (ExpiredJwtException ex) {
-            // ex.printStackTrace();
         }
 
 
