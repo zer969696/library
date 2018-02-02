@@ -9,24 +9,12 @@
         <sql>
             INSERT INTO users(name)
             VALUES ('benzoback');
-
-            INSERT INTO users(name)
-            VALUES ('juliya');
-
-            INSERT INTO users(name)
-            VALUES ('leonid');
         </sql>
     </changeSet>
     <changeSet id="31012018-2" author="Evgeniy Evzerov">
         <sql>
             INSERT INTO user_account(login, password, user_id)
-            VALUES ('1', '2', 1);
-
-            INSERT INTO user_account(login, password, user_id)
-            VALUES ('log_in1', 'password1', 2);
-
-            INSERT INTO user_account(login, password, user_id)
-            VALUES ('log_in2', 'password2', 3);
+            VALUES ('log', 'passw', 1);
         </sql>
     </changeSet>
     <changeSet id="31012018-3" author="Evgeniy Evzerov">
