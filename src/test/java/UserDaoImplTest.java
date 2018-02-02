@@ -81,12 +81,14 @@ public class UserDaoImplTest {
         Assert.assertTrue(userFindById.getId().equals(userFindByLogin.getId()));
         Assert.assertTrue(userFindById.getName().equals(userFindByLogin.getName()));
 
+        users = userDao.findAllUsers();
+
         //change user
         User editedUser = new User("editedName");
-        editedUser.setId(4);
+        editedUser.setId(users.get(0).getId());
         UserAccount editedUserAccount = new UserAccount("editedLogin", "editedPassword");
         editedUserAccount.setUser(editedUser);
-        editedUserAccount.setId(4);
+        editedUserAccount.setId(users.get(0).getId());
 
         //update user
         userDao.editUser(editedUser, editedUserAccount);
