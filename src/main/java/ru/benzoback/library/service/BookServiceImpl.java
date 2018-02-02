@@ -18,6 +18,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> findAllBooksById(int id) {
+        return dao.findAllBooksById(id);
+    }
+
+    @Override
     public int deleteBook(int id) {
         return dao.deleteBook(id);
     }
@@ -30,6 +35,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public int updateBook(Book book) {
         return dao.updateBook(book);
+    }
+
+    @Override
+    public int updateBookUserId(Book book) {
+        return dao.updateBookUserId(book);
     }
 
     @Override

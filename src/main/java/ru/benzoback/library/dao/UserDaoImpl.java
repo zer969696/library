@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
 import ru.benzoback.library.model.UserAccount;
 
@@ -17,12 +18,14 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private RowMapper<User> userRowMapper;
+    private BookDao bookDao;
     private UserAccountDao userAccountDao;
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserDaoImpl(RowMapper<User> userRowMapper, UserAccountDao userDao, JdbcTemplate jdbcTemplate) {
+    public UserDaoImpl(RowMapper<User> userRowMapper, BookDao bookDao, UserAccountDao userDao, JdbcTemplate jdbcTemplate) {
         this.userRowMapper = userRowMapper;
+        this.bookDao = bookDao;
         this.userAccountDao = userDao;
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -84,6 +87,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int deleteUser(int id) {
+        List<Book> books = bookDao.findAllBooksById(id);
+        for (Book book : books) {
+            book.setUser(null);
+            bookDao.updateBookUserId(book);
+        }
         return jdbcTemplate.update("DELETE FROM users WHERE users.id = ?", id);
     }
 }

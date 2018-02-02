@@ -8,9 +8,11 @@ import java.util.List;
 public interface BookService {
 
     List<Book> findAllBooks(int page, String sortBy, String sortDir);
+    List<Book> findAllBooksById(int id);
     int deleteBook(int id);
     int addBook(Book book);
     int updateBook(Book book);
+    int updateBookUserId(Book book);
     int takeBook(User user, int bookId);
     int putBook(User user, int bookId);
 

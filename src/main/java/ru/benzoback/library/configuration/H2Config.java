@@ -10,7 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-public class DBConfig {
+public class H2Config {
 
     @Bean
     public DataSource dataSource() {
@@ -18,17 +18,11 @@ public class DBConfig {
                 .generateUniqueName(false)
                 .setName("testdb")
                 .setType(EmbeddedDatabaseType.H2)
-                //.addDefaultScripts()
                 .addScript("schema.sql")
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .build();
     }
-
-//    @Bean
-//    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-//        return new NamedParameterJdbcTemplate(dataSource());
-//    }
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
