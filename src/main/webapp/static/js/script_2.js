@@ -51,6 +51,8 @@ function showModal() {
                         if (result === 1) {
                             alert('Пользователь успешно добавлен');
                             reloadView();
+                        } else {
+                            alert('Ошибка!')
                         }
                     }
                 )
@@ -65,26 +67,24 @@ function showModal() {
     });
 }
 
-function showEditModal(name, id) {
-    let loginVal = "";
-    let passwordVal = "";
-
-    makeRequest('get', '/api/users/credentials', { id: id }).done(function (result) {
-        loginVal = result.login;
-        passwordVal = result.password;
+function prepareEditModal(id) {
+    makeRequest('post', '/api/users/credentials', { id: id }).done(function (result) {
+        showEditModal(result);
     });
+}
 
+function showEditModal(userAccount) {
     let modalContent = `
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-name" value="` + name + `">
+            <input class="mdl-textfield__input" type="text" id="modal-name" value="` + userAccount.user.name + `">
             <label class="mdl-textfield__label" for="modal-name">Введите Имя пользователя...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-login" value="` + loginVal + `">
+            <input class="mdl-textfield__input" type="text" id="modal-login" value="` + userAccount.login + `">
             <label class="mdl-textfield__label" for="modal-login">Введите Логин...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-password" value="` + passwordVal + `">
+            <input class="mdl-textfield__input" type="text" id="modal-password" value="` + userAccount.password + `">
             <label class="mdl-textfield__label" for="modal-password">Введите Пароль...</label>
         </div>
     `;
@@ -108,7 +108,7 @@ function showEditModal(name, id) {
                     name: $('#modal-name').val(),
                     login: $('#modal-login').val(),
                     password: $('#modal-password').val(),
-                    id
+                    id: userAccount.user.id
                 };
 
                 makeRequest('post', '/api/users/edit', postData).done(
@@ -134,7 +134,10 @@ function makeRequest(type, url, data) {
     return $.ajax({
         url: url,
         data: data,
-        type: type
+        type: type,
+        error: function (callback) {
+            alert("Ошибка!");
+        }
     });
 }
 
@@ -159,7 +162,7 @@ function reloadView() {
 
 function createUserElement(name, id) {
     let element = `<tr>
-                        <td class="mdl-data-table__cell--non-numeric cursor-pointer">` + name + `</td>
+                        <td class="mdl-data-table__cell--non-numeric cursor-pointer" onclick="prepareEditModal('` + id + `')">` + name + `</td>
                         <td>
                             <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="deleteUser(` + id + `);">
                                 Удалить

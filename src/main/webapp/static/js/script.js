@@ -198,7 +198,10 @@ function makeRequest(type, url, data) {
     return $.ajax({
         url: url,
         data: data,
-        type: type
+        type: type,
+        error: function (callback) {
+            alert("Ошибка!");
+        }
     });
 }
 

@@ -208,3 +208,7 @@ table {
 .cursor-pointer {
     cursor: pointer;
 }
+
+tr td:first-child {
+    text-decoration: underline;
+}

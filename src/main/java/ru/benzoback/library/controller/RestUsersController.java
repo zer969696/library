@@ -26,10 +26,9 @@ public class RestUsersController {
         return ResponseEntity.ok(userDao.findAllUsers());
     }
 
-    @GetMapping("/credentials")
+    @PostMapping("/credentials")
     public ResponseEntity<?> findUserCredentialsById(@RequestParam(value = "id", required = false) Integer id) {
-        UserAccount userAccount = userAccountDao.findUserAccountByUserId(id);
-        return ResponseEntity.ok(userAccount);
+        return ResponseEntity.ok(userAccountDao.findUserAccountByUserId(id));
     }
 
     @GetMapping("/delete/{id}")

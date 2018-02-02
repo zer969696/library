@@ -51,7 +51,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAllUsers() {
-        return jdbcTemplate.query("SELECT * FROM users", resultSet -> {
+        // SELECT users.id, users.name FROM users, user_account WHERE users.id = user_account.user_id ORDER BY user_account.login ASC
+        return jdbcTemplate.query("SELECT * FROM users ORDER BY name ASC", resultSet -> {
             List<User> usersList = new ArrayList<>();
 
             int id = 0;

@@ -42,8 +42,8 @@
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-            <a href="#overview" class="mdl-layout__tab">Книги</a>
-            <a href="#features" class="mdl-layout__tab is-active">Пользователи</a>
+            <a href="<c:url value="/" />" class="mdl-layout__tab">Книги</a>
+            <a href="<c:url value="/users" />" class="mdl-layout__tab is-active">Пользователи</a>
             <a href="<c:url value="/logout" />" class="mdl-layout__tab logout-tab">Выйти</a>
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
                     id="add" onclick="showModal()">
@@ -64,7 +64,7 @@
             <c:forEach items="${users}" var="user">
                 <tr>
                     <td class="mdl-data-table__cell--non-numeric cursor-pointer"
-                        onclick="showEditModal('${user.getName()}', '${user.getId()}')">${user.getName()}</td>
+                        onclick="prepareEditModal('${user.getId()}')">${user.getName()}</td>
                     <td>
                         <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                                 onclick="deleteUser(${user.getId()});">
