@@ -196,7 +196,7 @@ function takeBook(id, currentUser) {
 
 function makeRequest(type, url, data) {
     return $.ajax({
-        url: url,
+        url: '/library' + url,
         data: data,
         type: type,
         error: function (callback) {

@@ -9,7 +9,7 @@ $(document).ready(function auth() {
 
     if (login != null && login !== "" && password != null && password !=="") {
         $.ajax({
-            url: "/auth",
+            url: '/library' + '/auth',
             dataType: "json",
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
