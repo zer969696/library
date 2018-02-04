@@ -87,11 +87,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int deleteUser(int id) {
-        List<Book> books = bookDao.findAllBooksById(id);
-        for (Book book : books) {
-            book.setUser(null);
-            bookDao.updateBookUserId(book);
+        if (findAllUsers().size() > 1) {
+            List<Book> books = bookDao.findAllBooksById(id);
+            for (Book book : books) {
+                book.setUser(null);
+                bookDao.updateBookUserId(book);
+            }
+            return jdbcTemplate.update("DELETE FROM users WHERE users.id = ?", id);
+        } else {
+            return 0;
         }
-        return jdbcTemplate.update("DELETE FROM users WHERE users.id = ?", id);
     }
 }

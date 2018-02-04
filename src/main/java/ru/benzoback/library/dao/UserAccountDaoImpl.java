@@ -6,6 +6,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ru.benzoback.library.model.UserAccount;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Repository("userAccountDao")
 public class UserAccountDaoImpl implements UserAccountDao {
@@ -36,6 +39,20 @@ public class UserAccountDaoImpl implements UserAccountDao {
                 return userAccountRowMapper.mapRow(resultSet, 0);
             }
             return null;
+        });
+    }
+
+    @Override
+    public List<String> findAllLogins() {
+        return jdbcTemplate.query("SELECT * FROM users, user_account WHERE users.id = user_account.user_id", resultSet -> {
+            List<String> logins = new ArrayList<>();
+
+            int i = 0;
+            while (resultSet.next()) {
+                logins.add(userAccountRowMapper.mapRow(resultSet, i).getLogin());
+            }
+
+            return logins;
         });
     }
 

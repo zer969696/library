@@ -44,7 +44,7 @@
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
             <a href="<c:url value="/" />" class="mdl-layout__tab">Книги</a>
             <a href="<c:url value="/users" />" class="mdl-layout__tab is-active">Пользователи</a>
-            <a href="<c:url value="/logout" />" class="mdl-layout__tab logout-tab">Выйти</a>
+            <%--<a href="<c:url value="/logout" />" class="mdl-layout__tab logout-tab">Выйти</a>--%>
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
                     id="add" onclick="showModal()">
                 <i class="material-icons" role="presentation">add</i>

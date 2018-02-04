@@ -1,46 +1,63 @@
 package ru.benzoback.library.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.benzoback.library.dao.BookDao;
-import ru.benzoback.library.dao.UserDao;
+import org.springframework.web.client.RestTemplate;
 import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
+import ru.benzoback.library.service.BookService;
+import ru.benzoback.library.service.UserService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class MainController {
 
-    private BookDao bookDao;
-    private UserDao userDao;
+    private BookService bookService;
+    private UserService userService;
 
     @Autowired
-    public MainController(BookDao bookDao, UserDao userDao) {
-        this.bookDao = bookDao;
-        this.userDao = userDao;
+    AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @Autowired
+    public MainController(BookService bookService, UserService userService) {
+        this.bookService = bookService;
+        this.userService = userService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String test(Model model) {
-        List<Book> allBooks = bookDao.findAllBooks(1, "", "");
+    @RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.DELETE })
+    public String mainPage(HttpServletResponse response, Model model) throws IOException {
+        List<Book> allBooks = bookService.findAllBooks(1, "", "");
         model.addAttribute("books", allBooks);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userDao.findByLogin(auth.getName());
-        model.addAttribute("currentUser", user.getName());
+        SecurityContext context = SecurityContextHolder.getContext();
+        User user = userService.findByLogin(context.getAuthentication().getName());
+
+        try {
+            model.addAttribute("currentUser", user.getName());
+        } catch (NullPointerException ex) {
+            response.sendError(401, "User account was deleted!");
+        }
+
 
         return "main";
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String users(Model model) {
-        List<User> users = userDao.findAllUsers();
+        List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);
 
         return "users";

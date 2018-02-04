@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 @Configuration
@@ -30,6 +31,7 @@ public class H2Config {
     }
 
     @Bean
+    @PostConstruct
     public SpringLiquibase liquibase() {
 
         SpringLiquibase springLiquibase = new SpringLiquibase();

@@ -1,12 +1,14 @@
 package ru.benzoback.library.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.benzoback.library.dao.BookDao;
 import ru.benzoback.library.model.Book;
 import ru.benzoback.library.model.User;
 
 import java.util.List;
 
+@Service("bookService")
 public class BookServiceImpl implements BookService {
 
     @Autowired

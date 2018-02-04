@@ -1,39 +1,42 @@
 package ru.benzoback.library.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
-import ru.benzoback.library.dao.UserAccountDao;
-import ru.benzoback.library.dao.UserDao;
 import ru.benzoback.library.model.User;
 import ru.benzoback.library.model.UserAccount;
+import ru.benzoback.library.service.UserAccountService;
+import ru.benzoback.library.service.UserService;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/users")
 public class RestUsersController {
 
-    private UserDao userDao;
-    private UserAccountDao userAccountDao;
+    private UserService userService;
+    private UserAccountService userAccountService;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
-    @Autowired
-    public RestUsersController(UserDao userDao, UserAccountDao userAccountDao) {
-        this.userDao = userDao;
-        this.userAccountDao = userAccountDao;
+    public RestUsersController(UserService userService, UserAccountService userAccountService, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+        this.userService = userService;
+        this.userAccountService = userAccountService;
+        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
     @GetMapping("/all")
     public ResponseEntity<?> findAllUsers() {
-        return ResponseEntity.ok(userDao.findAllUsers());
+        return ResponseEntity.ok(userService.findAllUsers());
     }
 
     @PostMapping("/credentials")
     public ResponseEntity<?> findUserCredentialsById(@RequestParam(value = "id", required = false) Integer id) {
-        return ResponseEntity.ok(userAccountDao.findUserAccountByUserId(id));
+        return ResponseEntity.ok(userAccountService.findUserAccountByUserId(id));
     }
 
     @GetMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        return ResponseEntity.ok(userDao.deleteUser(id));
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @PostMapping("/add")
@@ -43,7 +46,22 @@ public class RestUsersController {
         User user = new User(name);
         UserAccount userAccount = new UserAccount(login, password);
 
-        return ResponseEntity.ok(userDao.addUser(user, userAccount));
+        if (userService.addUser(user, userAccount) == 1) {
+            if (!inMemoryUserDetailsManager.userExists(login)) {
+                inMemoryUserDetailsManager.createUser(
+                        new org.springframework.security.core.userdetails.User(
+                                login,
+                                password,
+                                true,
+                                true,
+                                true,
+                                true,
+                                new ArrayList<>())
+                );
+            }
+        }
+
+        return ResponseEntity.ok(1);
     }
 
     @PostMapping("/edit")
@@ -55,6 +73,6 @@ public class RestUsersController {
         UserAccount userAccount = new UserAccount(login, password);
         user.setId(id);
 
-        return ResponseEntity.ok(userDao.editUser(user, userAccount));
+        return ResponseEntity.ok(userService.editUser(user, userAccount));
     }
 }

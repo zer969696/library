@@ -1,8 +1,12 @@
 function deleteUser(id) {
     if (confirm('Удалить пользователя?')) {
         makeRequest('get', '/api/users/delete/' + id, null).done(function (result) {
-            alert("Пользователь успешно удалён");
-            reloadView();
+            if (result === 1) {
+                alert("Пользователь успешно удалён");
+                reloadView();
+            } else {
+                alert('Пользователь не был удален!');
+            }
         });
     } else {
         alert('Пользователь не был удален!');

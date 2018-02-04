@@ -10,7 +10,7 @@ public class AppUser {
     public AppUser(String login, String password) {
         this.login = login;
         this.password = password;
-        //this.password = new BCryptPasswordEncoder().encode(this.password);
+        this.password = new BCryptPasswordEncoder().encode(this.password);
         System.out.println();
     }
 
