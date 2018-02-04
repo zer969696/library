@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        final Properties users = new Properties();
+        Properties users = new Properties();
         List<String> userLogins = userAccountService.findAllLogins();
         UserDetails tmpUser;
 

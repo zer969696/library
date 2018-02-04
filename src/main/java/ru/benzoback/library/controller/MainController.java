@@ -51,7 +51,7 @@ public class MainController {
         try {
             model.addAttribute("currentUser", user.getName());
         } catch (NullPointerException ex) {
-            response.sendError(401, "User account was deleted!");
+            response.sendError(401, "User account was deleted or changed!");
         }
 
 
@@ -59,7 +59,16 @@ public class MainController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String users(Model model) {
+    public String users(HttpServletResponse response, Model model) throws IOException {
+
+        SecurityContext context = SecurityContextHolder.getContext();
+        User user = userService.findByLogin(context.getAuthentication().getName());
+
+        try {
+            user.getName();
+        } catch (NullPointerException ex) {
+            response.sendError(401, "User account was deleted or changed!");
+        }
 
         List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);

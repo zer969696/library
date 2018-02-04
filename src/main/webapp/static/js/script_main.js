@@ -287,8 +287,8 @@ function createBookElement(isn, title, author, userName, id, currentUser) {
     }
     let element = `<tr>
                         <td class="mdl-data-table__cell--non-numeric cursor-pointer" onclick="showEditModal(\'` + currentUser + `\', \'` + isn + `\', \'` + title + `\', \'` + author + `\', \'` + id + `\')">` + isn + `</td>
-                        <td>` + title + `</td>
                         <td>` + author + `</td>
+                        <td>` + title + `</td>
                         <td>` + (userName === null ? buttonTake : buttonPut) + `</td>
                         <td>
                             <button class="mdl-js-ripple-effect mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="deleteBook(` + id + `, '` + currentUser + `'` + `);">

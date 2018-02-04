@@ -36,7 +36,15 @@ public class RestUsersController {
 
     @GetMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        return ResponseEntity.ok(userService.deleteUser(id));
+
+        UserAccount userAccount = userAccountService.findUserAccountByUserId(id);
+
+        if (userService.deleteUser(id) == 1) {
+            inMemoryUserDetailsManager.deleteUser(userAccount.getLogin());
+            return ResponseEntity.ok(1);
+        }
+
+        return ResponseEntity.ok(0);
     }
 
     @PostMapping("/add")
@@ -48,21 +56,14 @@ public class RestUsersController {
         UserAccount userAccount = new UserAccount(login, password);
 
         if (userService.addUser(user, userAccount) == 1) {
-            if (!inMemoryUserDetailsManager.userExists(login)) {
-                inMemoryUserDetailsManager.createUser(
-                        new org.springframework.security.core.userdetails.User(
-                                login,
-                                password,
-                                true,
-                                true,
-                                true,
-                                true,
-                                new ArrayList<>())
-                );
-            }
+            inMemoryUserDetailsManager.createUser(new org.springframework.security.core.userdetails.User(
+                    login, password, new ArrayList<>()
+            ));
+
+            return ResponseEntity.ok(1);
         }
 
-        return ResponseEntity.ok(1);
+        return ResponseEntity.ok(0);
     }
 
     @PostMapping("/edit")
@@ -74,6 +75,18 @@ public class RestUsersController {
         UserAccount userAccount = new UserAccount(login, password);
         user.setId(id);
 
-        return ResponseEntity.ok(userService.editUser(user, userAccount));
+        String oldLogin = userAccountService.findUserAccountByUserId(id).getLogin();
+
+        if (userService.editUser(user, userAccount) == 1) {
+            inMemoryUserDetailsManager.createUser(new org.springframework.security.core.userdetails.User(
+                    login, password, new ArrayList<>()
+            ));
+
+            inMemoryUserDetailsManager.deleteUser(oldLogin);
+
+            return ResponseEntity.ok(1);
+        }
+
+        return ResponseEntity.ok(0);
     }
 }
