@@ -67,8 +67,8 @@
             <c:forEach items="${books}" var="book">
                 <tr>
                     <td class="mdl-data-table__cell--non-numeric cursor-pointer" onclick="showEditModal('${currentUser}', '${book.getISN()}', '${book.getTitle()}', '${book.getAuthor()}', '${book.getId().toString()}')">${book.getISN()}</td>
-                    <td>${book.getTitle()}</td>
                     <td>${book.getAuthor()}</td>
+                    <td>${book.getTitle()}</td>
                     <c:if test="${currentUser != book.getUser().getName()}">
                         <c:if test="${book.getUser().getName() == null}">
                             <td>
