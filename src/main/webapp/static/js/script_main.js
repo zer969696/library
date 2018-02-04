@@ -11,15 +11,15 @@ function deleteBook(id, currentUser) {
 function showModal(currentUser) {
     let modalContent = `
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-isbn">
+            <input required class="mdl-textfield__input" type="text" id="modal-isbn">
             <label class="mdl-textfield__label" for="modal-isbn">Введите ISBN...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-title">
+            <input required class="mdl-textfield__input" type="text" id="modal-title">
             <label class="mdl-textfield__label" for="modal-title">Введите название...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-author">
+            <input required class="mdl-textfield__input" type="text" id="modal-author">
             <label class="mdl-textfield__label" for="modal-author">Введите автора...</label>
         </div>
     `;
@@ -45,14 +45,28 @@ function showModal(currentUser) {
                     author: $('#modal-author').val()
                 };
 
-                makeRequest('post', '/api/books/add', postData).done(
-                    function (result) {
-                        if (result === 1) {
-                            alert('Книга успешно добавлена');
-                            reloadView(currentUser);
+                if(postData.isbn.replace(/\s/g,"") !== "" && isNumeric(postData.isbn.replace(/\s/g,"")) &&
+                    postData.title.replace(/\s/g,"") !== "" &&
+                    postData.author.replace(/\s/g,"") !== "") {
+
+                    makeRequest('post', '/api/books/add', postData).done(
+                        function (result) {
+                            if (result === 1) {
+                                alert('Книга успешно добавлена');
+                                reloadView();
+                            } else {
+                                alert('Ошибка!')
+                            }
                         }
+                    )
+                } else {
+                    if ( !isNumeric(postData.isbn.replace(/\s/g,""))) {
+                        alert("ISBN должен состоять из цифр");
+                        alert("Обязательные поля не заполнены!");
+                    } else {
+                        alert("Обязательные поля не заполнены!");
                     }
-                )
+                }
             }
         },
         cancelable: true,
@@ -64,18 +78,22 @@ function showModal(currentUser) {
     });
 }
 
+function isNumeric(str){
+    return /^\d+$/.test(str);
+}
+
 function showEditModal(currentUser, isbn, title, author, id) {
     let modalContent = `
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-isbn" value="` + isbn + `">
+            <input required class="mdl-textfield__input" type="text" id="modal-isbn" value="` + isbn + `">
             <label class="mdl-textfield__label" for="modal-isbn">Введите ISBN...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-title" value="` + title + `">
+            <input required class="mdl-textfield__input" type="text" id="modal-title" value="` + title + `">
             <label class="mdl-textfield__label" for="modal-title">Введите название...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-author" value="` + author + `">
+            <input required class="mdl-textfield__input" type="text" id="modal-author" value="` + author + `">
             <label class="mdl-textfield__label" for="modal-author">Введите автора...</label>
         </div>
     `;
@@ -102,14 +120,28 @@ function showEditModal(currentUser, isbn, title, author, id) {
                     id
                 };
 
-                makeRequest('post', '/api/books/edit', postData).done(
-                    function (result) {
-                        if (result === 1) {
-                            alert('Книга успешно изменена');
-                            reloadView(currentUser);
+                if(postData.isbn.replace(/\s/g,"") !== "" && isNumeric(postData.isbn.replace(/\s/g,"")) &&
+                    postData.title.replace(/\s/g,"") !== "" &&
+                    postData.author.replace(/\s/g,"") !== "") {
+
+                    makeRequest('post', '/api/books/edit', postData).done(
+                        function (result) {
+                            if (result === 1) {
+                                alert('Книга успешно изменена');
+                                reloadView();
+                            } else {
+                                alert('Ошибка!')
+                            }
                         }
+                    )
+                } else {
+                    if ( !isNumeric(postData.isbn.replace(/\s/g,""))) {
+                        alert("ISBN должен состоять из цифр");
+                        alert("Обязательные поля не заполнены!");
+                    } else {
+                        alert("Обязательные поля не заполнены!");
                     }
-                )
+                }
             }
         },
         cancelable: true,

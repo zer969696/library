@@ -16,15 +16,15 @@ function deleteUser(id) {
 function showModal() {
     let modalContent = `
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-name">
+            <input required class="mdl-textfield__input" type="text" id="modal-name">
             <label class="mdl-textfield__label" for="modal-name">Введите Имя пользователя...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-login">
+            <input required class="mdl-textfield__input" type="text" id="modal-login">
             <label class="mdl-textfield__label" for="modal-login">Введите Логин...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-password">
+            <input required class="mdl-textfield__input" type="text" id="modal-password">
             <label class="mdl-textfield__label" for="modal-password">Введите Пароль...</label>
         </div>
     `;
@@ -43,23 +43,31 @@ function showModal() {
         positive: {
             id: 'ok-button',
             title: 'Сохранить',
-            onClick: function () {
+            onClick: function (e) {
+
                 let postData = {
                     name: $('#modal-name').val(),
                     login: $('#modal-login').val(),
                     password: $('#modal-password').val()
                 };
 
-                makeRequest('post', '/api/users/add', postData).done(
-                    function (result) {
-                        if (result === 1) {
-                            alert('Пользователь успешно добавлен');
-                            reloadView();
-                        } else {
-                            alert('Ошибка!')
+                if(postData.name.replace(/\s/g,"") !== "" &&
+                    postData.login.replace(/\s/g,"") !== "" &&
+                    postData.password.replace(/\s/g,"") !== "") {
+
+                    makeRequest('post', '/api/users/add', postData).done(
+                        function (result) {
+                            if (result === 1) {
+                                alert('Пользователь успешно добавлен');
+                                reloadView();
+                            } else {
+                                alert('Ошибка!')
+                            }
                         }
-                    }
-                )
+                    )
+                } else {
+                    alert("Обязательные поля не заполнены!");
+                }
             }
         },
         cancelable: true,
@@ -80,15 +88,15 @@ function prepareEditModal(id) {
 function showEditModal(userAccount) {
     let modalContent = `
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-name" value="` + userAccount.user.name + `">
+            <input required class="mdl-textfield__input" type="text" id="modal-name" value="` + userAccount.user.name + `">
             <label class="mdl-textfield__label" for="modal-name">Введите Имя пользователя...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-login" value="` + userAccount.login + `">
+            <input required class="mdl-textfield__input" type="text" id="modal-login" value="` + userAccount.login + `">
             <label class="mdl-textfield__label" for="modal-login">Введите Логин...</label>
           </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="modal-password" value="` + userAccount.password + `">
+            <input required class="mdl-textfield__input" type="text" id="modal-password" value="` + userAccount.password + `">
             <label class="mdl-textfield__label" for="modal-password">Введите Пароль...</label>
         </div>
     `;
@@ -115,14 +123,23 @@ function showEditModal(userAccount) {
                     id: userAccount.user.id
                 };
 
-                makeRequest('post', '/api/users/edit', postData).done(
-                    function (result) {
-                        if (result === 1) {
-                            alert('Пользователь успешно изменен');
-                            reloadView();
+                if(postData.name.replace(/\s/g,"") !== "" &&
+                    postData.login.replace(/\s/g,"") !== "" &&
+                    postData.password.replace(/\s/g,"") !== "") {
+
+                    makeRequest('post', '/api/users/edit', postData).done(
+                        function (result) {
+                            if (result === 1) {
+                                alert('Пользователь успешно изменен');
+                                reloadView();
+                            } else {
+                                alert('Ошибка!')
+                            }
                         }
-                    }
-                )
+                    )
+                } else {
+                    alert("Обязательные поля не заполнены!");
+                }
             }
         },
         cancelable: true,

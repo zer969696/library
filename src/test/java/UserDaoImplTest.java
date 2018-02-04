@@ -101,11 +101,11 @@ public class UserDaoImplTest {
         Assert.assertTrue(userAccount1.getPassword().equals("editedPassword"));
         Assert.assertTrue(userAccount1.getUser().getId().equals(users.get(0).getId()));
 
-        // delete
+        // delete (rowCount must be 1, because app must have at least 1 user)
         userDao.deleteUser(users.get(0).getId());
         rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
-        Assert.assertTrue(rowCount == 0);
+        Assert.assertTrue(rowCount == 1);
         rowCount = JdbcTestUtils.countRowsInTable(jdbcTemplate, "user_account");
-        Assert.assertTrue(rowCount == 0);
+        Assert.assertTrue(rowCount == 1);
     }
 }
