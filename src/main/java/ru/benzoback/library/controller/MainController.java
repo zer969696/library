@@ -27,18 +27,21 @@ public class MainController {
 
     private BookService bookService;
     private UserService userService;
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Autowired
-    AuthenticationManagerBuilder authenticationManagerBuilder;
+    public MainController(BookService bookService,
+                          UserService userService,
+                          AuthenticationManagerBuilder authenticationManagerBuilder) {
 
-    @Autowired
-    public MainController(BookService bookService, UserService userService) {
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.bookService = bookService;
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/", method = { RequestMethod.GET, RequestMethod.DELETE })
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String mainPage(HttpServletResponse response, Model model) throws IOException {
+
         List<Book> allBooks = bookService.findAllBooks(1, "", "");
         model.addAttribute("books", allBooks);
 
@@ -57,14 +60,10 @@ public class MainController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String users(Model model) {
+
         List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);
 
         return "users";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String auth() {
-        return "login";
     }
 }

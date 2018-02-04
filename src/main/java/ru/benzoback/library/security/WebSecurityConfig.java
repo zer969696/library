@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         for(String login : userLogins) {
             tmpUser = userDetailsService.loadUserByUsername(login);
-            users.put(tmpUser.getUsername(), tmpUser.getPassword() + ',' + tmpUser.getAuthorities() + ',' + tmpUser.isEnabled());
+            users.put(tmpUser.getUsername(),
+                    tmpUser.getPassword() + ',' + tmpUser.getAuthorities() + ',' + tmpUser.isEnabled());
         }
 
         return new InMemoryUserDetailsManager(users);

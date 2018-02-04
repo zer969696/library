@@ -43,7 +43,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByLogin(String login) {
-        return jdbcTemplate.query("SELECT * FROM users, user_account WHERE users.id = user_account.id AND user_account.login = ?", new Object[]{ login }, resultSet -> {
+        return jdbcTemplate.query("SELECT * FROM users, user_account WHERE users.id = user_account.id AND user_account.login = ?",
+                new Object[]{ login },
+                resultSet -> {
+
             if (resultSet.next()) {
                 return userRowMapper.mapRow(resultSet, 0);
             } else {
@@ -71,7 +74,8 @@ public class UserDaoImpl implements UserDao {
     public int addUser(User user, UserAccount userAccount) {
         GeneratedKeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users(name) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users(name) VALUES(?)",
+                    Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getName());
             return preparedStatement;
         }, holder);
@@ -80,7 +84,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int editUser(User user, UserAccount userAccount) {
-        jdbcTemplate.update("UPDATE user_account SET login = ?, password = ? WHERE user_id = ?", userAccount.getLogin(), userAccount.getPassword(), user.getId());
+        jdbcTemplate.update("UPDATE user_account SET login = ?, password = ? WHERE user_id = ?",
+                userAccount.getLogin(),
+                userAccount.getPassword(),
+                user.getId()
+        );
         return jdbcTemplate.update("UPDATE users SET name = ? WHERE id = ?", user.getName(), user.getId());
 
     }

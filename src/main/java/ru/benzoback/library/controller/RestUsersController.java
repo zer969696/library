@@ -43,6 +43,7 @@ public class RestUsersController {
     public ResponseEntity<?> addUser(@RequestParam(value = "name", required = false) String name,
                                      @RequestParam(value = "login", required = false) String login,
                                      @RequestParam(value = "password", required = false) String password) {
+
         User user = new User(name);
         UserAccount userAccount = new UserAccount(login, password);
 
