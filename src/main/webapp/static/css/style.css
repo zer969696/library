@@ -212,3 +212,10 @@ table {
 tr td:first-child {
     text-decoration: underline;
 }
+
+@media screen and (max-width: 1024px){
+    .mdl-demo .mdl-layout.is-small-screen .mdl-layout__tab-bar .mdl-button {
+        display: block !important;
+        top: 4px !important;
+    }
+}

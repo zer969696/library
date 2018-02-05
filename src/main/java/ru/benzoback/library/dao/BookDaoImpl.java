@@ -33,6 +33,7 @@ public class BookDaoImpl implements BookDao {
         }
 
         return jdbcTemplate.query(sql, resultSet -> {
+
             List<Book> books = new ArrayList<>();
 
             int id = 0;
@@ -57,7 +58,10 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findAllBooksById(int id) {
-        return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id WHERE user_id = ?", new Object[]{ id }, resultSet -> {
+        return jdbcTemplate.query("SELECT * FROM books LEFT JOIN users ON books.user_id = users.id WHERE user_id = ?",
+                new Object[]{ id },
+                resultSet -> {
+
             List<Book> books = new ArrayList<>();
 
             int i = 0;
@@ -92,7 +96,11 @@ public class BookDaoImpl implements BookDao {
     public int updateBookUserId(Book book) {
         return jdbcTemplate.update(
                 "UPDATE books SET isn = ?, title = ?, author = ?, user_id = ? WHERE id = ?",
-                book.getISN(), book.getTitle(), book.getAuthor(), book.getUser() == null ? null : book.getUser().getId(), book.getId()
+                book.getISN(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getUser() == null ? null : book.getUser().getId(),
+                book.getId()
         );
     }
 

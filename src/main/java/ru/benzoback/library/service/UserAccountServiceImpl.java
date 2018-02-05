@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.benzoback.library.dao.UserAccountDao;
 import ru.benzoback.library.model.UserAccount;
 
+import java.util.List;
+
 @Service("userAccountService")
 public class UserAccountServiceImpl implements UserAccountService {
 
@@ -19,6 +21,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount findUserAccountByLogin(String login) {
         return dao.findUserAccountByLogin(login);
+    }
+
+    @Override
+    public List<String> findAllLogins() {
+        return dao.findAllLogins();
     }
 
     @Override

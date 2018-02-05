@@ -14,8 +14,8 @@ import ru.benzoback.library.service.UserAccountService;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("appUserService")
-public class AppUserService implements UserDetailsService {
+@Service("appUserDetailsService")
+public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
     UserAccountService userAccountService;

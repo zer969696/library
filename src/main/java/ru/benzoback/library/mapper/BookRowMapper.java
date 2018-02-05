@@ -24,6 +24,7 @@ public class BookRowMapper implements RowMapper {
         book.setAuthor(resultSet.getString("author"));
         book.setTitle(resultSet.getString("title"));
         book.setISN(resultSet.getString("isn"));
+
         book.setUser(userRowMapper.mapRow(resultSet, i));
 
         return book;

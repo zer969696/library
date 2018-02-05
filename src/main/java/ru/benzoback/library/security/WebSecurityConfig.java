@@ -1,84 +1,66 @@
 package ru.benzoback.library.security;
 
+import liquibase.Liquibase;
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.benzoback.library.security.jwt.JwtAuthenticationFilter;
-import ru.benzoback.library.security.jwt.JwtLoginFilter;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import ru.benzoback.library.service.UserAccountService;
-import ru.benzoback.library.service.UserService;
+
+import java.util.List;
+import java.util.Properties;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired @Qualifier("appUserDetailsService")
+    UserDetailsService userDetailsService;
     @Autowired
-    @Qualifier("appUserService")
-    private UserDetailsService userDetailsService;
+    UserAccountService userAccountService;
 
-    private UserService userService;
-    private UserAccountService userAccountService;
-
-    @Autowired
-    public WebSecurityConfig(UserService userService, UserAccountService userAccountService) {
-        this.userService = userService;
-        this.userAccountService = userAccountService;
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(inMemoryUserDetailsManager());
     }
+
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        Properties users = new Properties();
+        List<String> userLogins = userAccountService.findAllLogins();
+        UserDetails tmpUser;
+
+        for(String login : userLogins) {
+            tmpUser = userDetailsService.loadUserByUsername(login);
+            users.put(tmpUser.getUsername(),
+                    tmpUser.getPassword() + ',' + tmpUser.getAuthorities() + ',' + tmpUser.isEnabled());
+        }
+
+        return new InMemoryUserDetailsManager(users);
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //static content load + h2-console frame allowing
         http.headers().cacheControl();
         http.headers().frameOptions().disable();
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").authenticated()
-                .antMatchers("/users").authenticated()
-                .antMatchers(HttpMethod.POST,"/auth").permitAll()
-                .antMatchers("/console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
-                .and()
-                .logout().deleteCookies("Authorization").logoutSuccessUrl("/login").permitAll()
-                .and()
-                .addFilterBefore(new JwtLoginFilter("/auth", authenticationManager(), userService, userAccountService), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(userService, userAccountService), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/js/**");
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
-    }
-
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-        auth.authenticationProvider(authenticationProvider());
+                .httpBasic().realmName("library").authenticationEntryPoint(new CustomAuthenticationEntryPoint());
     }
 }
