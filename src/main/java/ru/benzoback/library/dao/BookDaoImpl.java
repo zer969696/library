@@ -17,7 +17,7 @@ public class BookDaoImpl implements BookDao {
     private RowMapper<Book> bookRowMapper;
 
     @Autowired
-    public BookDaoImpl(JdbcTemplate jdbcTemplate, RowMapper<Book> bookRowMapper, RowMapper<User> userRowMapper) {
+    public BookDaoImpl(JdbcTemplate jdbcTemplate, RowMapper<Book> bookRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.bookRowMapper = bookRowMapper;
     }
